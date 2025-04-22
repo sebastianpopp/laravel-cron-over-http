@@ -5,9 +5,11 @@ namespace SebastianPopp\CronOverHttp\Http\Controllers;
 use Illuminate\Console\Application;
 use Illuminate\Http\Request;
 use Illuminate\Process\Pool;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Process;
+use SebastianPopp\CronOverHttp\Facades\CronOverHttpExceptionHandler;
 
-class CronController extends \App\Http\Controllers\Controller
+class CronController extends Controller
 {
     public function __invoke(Request $request)
     {
@@ -44,7 +46,11 @@ class CronController extends \App\Http\Controllers\Controller
             $this->print($key, $output);
         });
 
-        $pool->wait();
+        try {
+            $pool->wait();
+        } catch (\Throwable $e) {
+            CronOverHttpExceptionHandler::handle($e);
+        }
 
         $this->print('info', 'All jobs finished!');
     }
