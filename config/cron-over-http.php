@@ -6,7 +6,9 @@ return [
 
     'secret' => env('CRON_SECRET', null),
 
-    'queue' => env('CRON_QUEUE', true),
+    'queue_enabled' => env('CRON_QUEUE', true),
 
-    'max-time' => env('CRON_MAX_TIME', 50),
+    'max_time' => env('CRON_MAX_TIME', 50),
+
+    'queue' => env('CRON_QUEUE_NAME', 'default'),
 ];

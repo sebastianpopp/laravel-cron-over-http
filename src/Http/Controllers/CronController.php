@@ -37,10 +37,11 @@ class CronController extends Controller
         $pool = Process::pool(function (Pool $pool) use ($path, $phpBinary, $artisan) {
             $pool->as('schedule')->path($path)->command($phpBinary.' '.$artisan.' schedule:run');
 
-            if (config('cron-over-http.queue')) {
-                $maxTime = (int) config('cron-over-http.max-time');
+            if (config('cron-over-http.queue_enabled')) {
+                $maxTime = (int) config('cron-over-http.max_time');
+                $queue = config('cron-over-http.queue');
 
-                $pool->as('queue')->path($path)->command($phpBinary.' '.$artisan.' queue:work --max-time='.$maxTime);
+                $pool->as('queue')->path($path)->command($phpBinary.' '.$artisan.' queue:work --max-time='.$maxTime.' --queue='.$queue);
             }
         })->start(function (string $type, string $output, string $key) {
             $this->print($key, $output);
