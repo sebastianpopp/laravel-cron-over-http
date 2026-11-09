@@ -18,6 +18,6 @@ class CronOverHttpServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__.'/../routes/cron.php');
 
-        $this->app->bind('cron-over-http.exception-handler', fn () => new CronOverHttpExceptionHandler);
+        $this->app->singleton('cron-over-http.exception-handler', fn () => new CronOverHttpExceptionHandler);
     }
 }
