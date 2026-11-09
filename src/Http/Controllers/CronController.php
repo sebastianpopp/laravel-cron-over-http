@@ -24,7 +24,15 @@ class CronController extends Controller
 
     protected function run(Request $request)
     {
-        if ($request->get('secret') !== config('cron-over-http.secret')) {
+        $secret = config('cron-over-http.secret');
+
+        if (blank($secret)) {
+            abort(500, 'The cron-over-http secret is not configured.');
+        }
+
+        $provided = $request->header('X-Cron-Secret', $request->get('secret'));
+
+        if (! is_string($provided) || ! hash_equals($secret, $provided)) {
             abort(403);
         }
 
@@ -62,6 +70,10 @@ class CronController extends Controller
         $prefix = str('['.strtoupper($cat).']')->padRight(10)->append(' ');
 
         echo $prefix.implode(PHP_EOL.$prefix, explode(PHP_EOL, $output)).PHP_EOL;
+
+        if (ob_get_level() > 0) {
+            ob_flush();
+        }
 
         flush();
     }
