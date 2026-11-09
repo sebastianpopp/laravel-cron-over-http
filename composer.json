@@ -8,6 +8,7 @@
     ],
     "homepage": "https://github.com/sebastianpopp/laravel-cron-over-http",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Sebastian Popp",
@@ -15,6 +16,10 @@
             "role": "Developer"
         }
     ],
+    "support": {
+        "issues": "https://github.com/sebastianpopp/laravel-cron-over-http/issues",
+        "source": "https://github.com/sebastianpopp/laravel-cron-over-http"
+    },
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.0 || ^12.0 || ^13.0"
@@ -53,6 +58,5 @@
             ]
         }
     },
-    "minimum-stability": "dev",
     "prefer-stable": true
 }
