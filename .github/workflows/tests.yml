@@ -7,6 +7,48 @@ on:
   pull_request:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    name: Code style
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: "8.4"
+          coverage: none
+
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction
+
+      - name: Run Pint
+        run: vendor/bin/pint --test
+
+  static-analysis:
+    runs-on: ubuntu-latest
+
+    name: Static analysis
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: "8.4"
+          coverage: none
+
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction
+
+      - name: Run PHPStan
+        run: composer analyse
+
   tests:
     runs-on: ubuntu-latest
 
